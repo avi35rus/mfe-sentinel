@@ -1,0 +1,42 @@
+{
+  "name": "host",
+  "version": "1.3.0",
+  "generatedAt": "2026-05-02T20:57:42.351Z",
+  "exposes": [
+    {
+      "name": "./Shell",
+      "path": "./src/components/Shell"
+    },
+    {
+      "name": "./Navigation",
+      "path": "./src/components/Navigation"
+    }
+  ],
+  "remotes": [
+    {
+      "alias": "checkout",
+      "url": "https://cdn.example.com/checkout/remoteEntry.js",
+      "modules": []
+    },
+    {
+      "alias": "catalog",
+      "url": "https://cdn.example.com/catalog/remoteEntry.js",
+      "modules": []
+    }
+  ],
+  "shared": [
+    {
+      "name": "react",
+      "version": "^18.2.0",
+      "singleton": true,
+      "strictVersion": false,
+      "requiredVersion": "^18.0.0"
+    },
+    {
+      "name": "lodash",
+      "version": "^4.17.21",
+      "singleton": false,
+      "strictVersion": false
+    }
+  ]
+}

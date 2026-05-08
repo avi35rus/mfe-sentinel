@@ -1,0 +1,44 @@
+{
+  "name": "mfe-sentinel",
+  "version": "0.1.0",
+  "description": "CLI-инструмент аудита контрактов Micro Frontend",
+  "main": "dist/index.js",
+  "bin": {
+    "sentinel": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/index.ts",
+    "start": "node dist/index.js",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
+  },
+  "keywords": [
+    "mfe",
+    "micro-frontend",
+    "module-federation",
+    "cli",
+    "audit"
+  ],
+  "author": "",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "commander": "^14.0.3",
+    "picocolors": "^1.1.1",
+    "semver": "^7.7.4"
+  },
+  "vitest": {
+    "environment": "node",
+    "include": ["src/**/*.test.ts"]
+  },
+  "devDependencies": {
+    "@types/node": "^25.6.0",
+    "@types/semver": "^7.7.1",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.5"
+  }
+}

@@ -1,0 +1,21 @@
+# Build output
+dist/
+node_modules/
+
+# IDE and editor configs — local only
+.cursor/
+.idea/
+.vscode/
+
+# Sentinel generated artifacts (output of `sentinel scan` / `sentinel init`)
+manifest.sentinel.json
+sentinel.config.json
+
+# Private / local files — never commit these
+*.local
+.env
+.env.*
+
+# OS artifacts
+.DS_Store
+Thumbs.db

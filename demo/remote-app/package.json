@@ -1,0 +1,11 @@
+{
+  "name": "remote-app",
+  "version": "0.9.5",
+  "description": "Демо remote-приложение — намеренно использует React 17 (конфликт)",
+  "dependencies": {
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "lodash": "^4.17.21",
+    "axios": "^1.6.0"
+  }
+}

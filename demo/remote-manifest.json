@@ -1,0 +1,35 @@
+{
+  "name": "remote",
+  "version": "0.9.5",
+  "generatedAt": "2026-05-02T20:57:56.543Z",
+  "exposes": [
+    {
+      "name": "./Checkout",
+      "path": "./src/components/Checkout"
+    },
+    {
+      "name": "./CartSummary",
+      "path": "./src/components/CartSummary"
+    },
+    {
+      "name": "./useCart",
+      "path": "./src/hooks/useCart"
+    }
+  ],
+  "remotes": [],
+  "shared": [
+    {
+      "name": "react",
+      "version": "17.0.2",
+      "singleton": true,
+      "strictVersion": false,
+      "requiredVersion": "^17.0.0"
+    },
+    {
+      "name": "lodash",
+      "version": "^4.17.21",
+      "singleton": false,
+      "strictVersion": false
+    }
+  ]
+}
