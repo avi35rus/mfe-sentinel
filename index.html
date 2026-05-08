@@ -53,6 +53,8 @@
             display: flex; align-items: center; justify-content: space-between;
         }
         .nav-logo { color: var(--accent); font-weight: 800; font-size: 1.2rem; font-family: monospace; letter-spacing: -0.05em; }
+        .nav-logo .cursor { animation: blink 1s step-end infinite; }
+        @keyframes blink { from, to { opacity: 1; } 50% { opacity: 0; } }
         .nav-links { display: flex; gap: 1.5rem; }
         .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.9rem; transition: color .2s; }
         .nav-links a:hover { color: var(--text); }
@@ -326,7 +328,7 @@
 
 <!-- ── Navigation ──────────────────────────────────────────────────────── -->
 <nav>
-    <span class="nav-logo">SENTINEL_</span>
+    <span class="nav-logo">SENTINEL<span class="cursor">_</span></span>
     <div class="nav-links">
         <a href="#how-it-works">How it works</a>
         <a href="#features">Features</a>
