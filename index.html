@@ -208,7 +208,10 @@
             border-radius: 12px; padding: 2rem;
             font-family: monospace; font-size: 0.8rem;
             color: var(--muted); line-height: 2;
+        }
+        .arch-diagram pre {
             overflow-x: auto;
+            margin: 0;
         }
         .arch-diagram .hl  { color: var(--accent);  font-weight: 700; }
         .arch-diagram .hlg { color: var(--green);   font-weight: 700; }
@@ -296,13 +299,15 @@
                 line-height: 1.7;
             }
 
-            /* Architecture diagram:
-               уменьшаем padding, чтобы <pre> не обрезался,
-               и снижаем font-size для читаемости */
+            /* Architecture diagram: рамка фиксирована, скролл только внутри <pre> */
             .arch-diagram {
                 padding: 1rem 0.75rem;
                 font-size: 0.62rem;
                 line-height: 1.75;
+            }
+            .arch-diagram pre {
+                overflow-x: auto;
+                padding-bottom: 0.5rem; /* место для скроллбара */
             }
             .arch-tabs { flex-wrap: wrap; }
 
@@ -316,7 +321,7 @@
 
         @media (max-width: 480px) {
             .arch-diagram {
-                padding: 0.75rem 0.5rem;
+                padding: 0.65rem 0.5rem;
                 font-size: 0.55rem;
             }
             .terminal-body { font-size: 0.68rem; }
