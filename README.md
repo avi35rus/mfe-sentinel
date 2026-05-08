@@ -156,8 +156,8 @@ CI/CD Pipeline
     │    ├─► Neo4j Graph DB   (dependency graph)   │
     │    └─► ClickHouse       (runtime telemetry)  │
     │                                              │
-    │  Dashboard  ◄-  React Flow / D3 graph        │
-    │  CDN Edge   ◄-  Dynamic Manifest + Rollback  │
+    │  Dashboard  ◄─  React Flow / D3 graph        │
+    │  CDN Edge   ◄─  Dynamic Manifest + Rollback  │
     └──────────────────────────────────────────────┘
 ```
 
