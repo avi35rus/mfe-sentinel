@@ -148,17 +148,17 @@ CI/CD Pipeline
               ▲
               │  Sentinel API (production graph — Phase 2)
               │
-    ┌─────────┴────────────────────────────────────┐
-    │  Sentinel Backend (Planned — Phase 3)        │
-    │                                              │
-    │  API Gateway                                 │
-    │    ├─► Kafka/SQS        (async queue)        │
-    │    ├─► Neo4j Graph DB   (dependency graph)   │
-    │    └─► ClickHouse       (runtime telemetry)  │
-    │                                              │
-    │  Dashboard  ◄─  React Flow / D3 graph        │
-    │  CDN Edge   ◄─  Dynamic Manifest + Rollback  │
-    └──────────────────────────────────────────────┘
+    ┌─────────┴─────────────────────────────────────
+    │  Sentinel Backend (Planned — Phase 3)        
+    │                                              
+    │  API Gateway                                 
+    │    ├─► Kafka/SQS        (async queue)        
+    │    ├─► Neo4j Graph DB   (dependency graph)   
+    │    └─► ClickHouse       (runtime telemetry)  
+    │                                              
+    │  Dashboard  ◄─  React Flow / D3 graph        
+    │  CDN Edge   ◄─  Dynamic Manifest + Rollback  
+    └───────────────────────────────────────────────
 ```
 
 Full technical specification including Graph DB schema, scalability design, and AI integration roadmap: **[SENTINEL_SPEC.md](SENTINEL_SPEC.md)**

@@ -535,31 +535,31 @@
         </div>
         <div class="arch-diagram">
 <pre>
-┌──────────────── CI/CD Pipeline (v0.1 — available now) ───────────────────┐
-│                                                                          │
-│   MFE "checkout" build                                                   │
-│         │                                                                │
-│         ▼                                                                │
-│   <span class="hl">sentinel scan</span>  ──►  manifest.sentinel.json  (local file)               │
-│         │                                                                │
-│         ▼                                                                │
-│   <span class="hl">sentinel check</span> ──►  <span class="hlg">PASS</span> (deploy) │ <span class="hly">WARN</span> (log) │ <span class="hlr">FAIL → exit 1</span>         │
-│                    ▲                                                     │
-│                    │  reads local remote-manifest.json                   │
-└────────────────────┼─────────────────────────────────────────────────────┘
+┌──────────────── CI/CD Pipeline (v0.1 — available now) ────────────────────
+│                                                                          
+│   MFE "checkout" build                                                  
+│         │                                                                
+│         ▼                                                                
+│   <span class="hl">sentinel scan</span>  ──►  manifest.sentinel.json  (local file)               
+│         │                                                                
+│         ▼                                                                
+│   <span class="hl">sentinel check</span> ──►  <span class="hlg">PASS</span> (deploy) │ <span class="hly">WARN</span> (log) │ <span class="hlr">FAIL → exit 1</span>         
+│                    ▲                                                     
+│                    │  reads local remote-manifest.json                  
+└────────────────────┼──────────────────────────────────────────────────────
                      │
-┌────────────────────┴─────────────────────────────────────────────────────┐
-│  Sentinel Backend  <span class="hlp">◌ Designed · Development starts Phase 2</span>               │
-│                                                                          │
-│   API Gateway  ◄── sentinel check (cloud mode, future)                   │
-│        │                                                                 │
-│        ├──► <span class="hlp">Kafka / SQS</span>      async CI validation queue                   │
-│        ├──► <span class="hlp">Neo4j Graph DB</span>   MFE dependency graph, shortest-path checks  │
-│        └──► <span class="hlp">ClickHouse</span>       runtime telemetry, time-series ingestion    │
-│                                                                          │
-│   Dashboard  ◄──── React Flow / D3 visualisation of MFE cluster          │
-│   CDN Edge   ◄──── Dynamic Manifest Resolution + one-click rollback      │
-└──────────────────────────────────────────────────────────────────────────┘
+┌────────────────────┴──────────────────────────────────────────────────────
+│  Sentinel Backend  <span class="hlp">◌ Designed · Development starts Phase 2</span>               
+│                                                                          
+│   API Gateway  ◄── sentinel check (cloud mode, future)                   
+│        │                                                                 
+│        ├──► <span class="hlp">Kafka / SQS</span>      async CI validation queue                   
+│        ├──► <span class="hlp">Neo4j Graph DB</span>   MFE dependency graph, shortest-path checks  
+│        └──► <span class="hlp">ClickHouse</span>       runtime telemetry, time-series ingestion    
+│                                                                          
+│   Dashboard  ◄──── React Flow / D3 visualisation of MFE cluster          
+│   CDN Edge   ◄──── Dynamic Manifest Resolution + one-click rollback      
+└───────────────────────────────────────────────────────────────────────────
 </pre>
         </div>
         <p style="color: var(--muted); font-size: 0.85rem; margin-top: 1rem;">
