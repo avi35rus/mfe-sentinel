@@ -10,7 +10,7 @@ import {
 } from '../parsers/webpack.parser.js';
 
 /**
- * Выводит SentinelManifest в терминал с цветовым форматированием.
+ * Prints a SentinelManifest to the terminal with color formatting.
  */
 function printManifest(manifest: SentinelManifest): void {
   console.log();
@@ -67,25 +67,25 @@ function printManifest(manifest: SentinelManifest): void {
 }
 
 /**
- * Сохраняет манифест в JSON-файл и выводит путь.
+ * Saves the manifest to a JSON file and prints the output path.
  */
 async function saveManifest(manifest: SentinelManifest, outputPath: string): Promise<void> {
   const absolutePath = resolve(outputPath);
   await writeFile(absolutePath, JSON.stringify(manifest, null, 2), 'utf-8');
-  console.log(pc.green('✔') + ' Манифест сохранён: ' + pc.bold(absolutePath));
+  console.log(pc.green('✔') + ' Manifest saved: ' + pc.bold(absolutePath));
 }
 
 /**
- * Регистрирует команду `sentinel scan`.
+ * Registers the `sentinel scan` command.
  */
 export function registerScanCommand(program: Command): void {
   program
     .command('scan')
-    .description('Сканировать MFE-конфиг и сгенерировать манифест')
-    .option('-p, --package <path>',   'Путь до package.json',              './package.json')
-    .option('-m, --mf-config <path>', 'Путь до module-federation.config.js (реальный парсинг)')
-    .option('-o, --output <path>',    'Куда сохранить манифест',           './manifest.sentinel.json')
-    .option('--no-save',              'Не сохранять файл, только вывести в терминал')
+    .description('Scan MFE config and generate a manifest')
+    .option('-p, --package <path>',   'Path to package.json',                        './package.json')
+    .option('-m, --mf-config <path>', 'Path to module-federation.config.js (real parse)')
+    .option('-o, --output <path>',    'Output path for the manifest',                 './manifest.sentinel.json')
+    .option('--no-save',              'Print manifest to stdout only, do not write file')
     .action(async (options: {
       package: string;
       mfConfig?: string;
@@ -93,56 +93,55 @@ export function registerScanCommand(program: Command): void {
       save: boolean;
     }) => {
       try {
-        console.log(pc.bold('\n  sentinel scan') + pc.gray(' — сканирование проекта...\n'));
+        console.log(pc.bold('\n  sentinel scan') + pc.gray(' — scanning project...\n'));
 
         let manifest: SentinelManifest;
 
         if (options.mfConfig !== undefined) {
-          // ── Реальный парсинг через MF-конфиг ─────────────────────────────
-          process.stdout.write(pc.gray('  [1/3] Чтение package.json...           '));
+          // ── Real parse via MF config ──────────────────────────────────────
+          process.stdout.write(pc.gray('  [1/3] Reading package.json...           '));
           const pkg = await parsePackageJson(options.package);
           console.log(pc.green('✔') + pc.gray(` ${pkg.name}@${pkg.version}`));
 
-          process.stdout.write(pc.gray('  [2/3] Парсинг module-federation.config... '));
-          // parseMFConfig вызывается внутри buildManifestFromMFConfig
+          process.stdout.write(pc.gray('  [2/3] Parsing module-federation.config... '));
           console.log(pc.green('✔') + pc.gray(` ${options.mfConfig}`));
 
-          process.stdout.write(pc.gray('  [3/3] Сборка манифеста...              '));
+          process.stdout.write(pc.gray('  [3/3] Building manifest...               '));
           manifest = await buildManifestFromMFConfig(options.mfConfig, options.package);
           console.log(pc.green('✔') + pc.bold(pc.green(' [real]')));
 
-          // Предупреждаем о зависимостях, которых нет в package.json
+          // Warn about dependencies missing from package.json
           const missing = manifest.shared.filter((d) => d.version === '*');
           if (missing.length > 0) {
             console.log(
-              pc.yellow('\n  ⚠ Версии не найдены в package.json (используется "*"):'),
+              pc.yellow('\n  ⚠ Versions not found in package.json (using "*"):'),
             );
             for (const d of missing) {
               console.log(pc.yellow(`    · ${d.name}`));
             }
           }
         } else {
-          // ── Mock-режим (fallback) ─────────────────────────────────────────
-          process.stdout.write(pc.gray('  [1/2] Чтение package.json... '));
+          // ── Mock mode (fallback) ──────────────────────────────────────────
+          process.stdout.write(pc.gray('  [1/2] Reading package.json... '));
           const pkg = await parsePackageJson(options.package);
           console.log(pc.green('✔') + pc.gray(` ${pkg.name}@${pkg.version}`));
 
-          process.stdout.write(pc.gray('  [2/2] Генерация манифеста...  '));
+          process.stdout.write(pc.gray('  [2/2] Generating manifest...  '));
           manifest = generateMockManifest(pkg.name, pkg.version);
           console.log(pc.green('✔') + pc.yellow(' [mock]') +
-            pc.gray(' — укажи --mf-config для реального парсинга'));
+            pc.gray(' — use --mf-config for real parsing'));
         }
 
-        // Вывод манифеста
+        // Print manifest
         printManifest(manifest);
 
-        // Сохранение в файл
+        // Save to file
         if (options.save) {
           await saveManifest(manifest, options.output);
         }
       } catch (error) {
         const message = error instanceof Error ? error.message : String(error);
-        console.error('\n' + pc.red('✖ Ошибка сканирования: ') + message);
+        console.error('\n' + pc.red('✖ Scan error: ') + message);
         process.exit(1);
       }
     });

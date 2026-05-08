@@ -59,14 +59,14 @@ export async function parsePackageJson(filePath: string): Promise<PackageJsonMet
   try {
     raw = await readFile(absolutePath, 'utf-8');
   } catch {
-    throw new Error(`Не удалось прочитать package.json: ${absolutePath}`);
+    throw new Error(`Failed to read package.json: ${absolutePath}`);
   }
 
   let parsed: unknown;
   try {
     parsed = JSON.parse(raw);
   } catch {
-    throw new Error(`Некорректный JSON в файле: ${absolutePath}`);
+    throw new Error(`Invalid JSON in file: ${absolutePath}`);
   }
 
   if (
@@ -75,7 +75,7 @@ export async function parsePackageJson(filePath: string): Promise<PackageJsonMet
     typeof (parsed as Record<string, unknown>)['name'] !== 'string' ||
     typeof (parsed as Record<string, unknown>)['version'] !== 'string'
   ) {
-    throw new Error(`Поля "name" и "version" обязательны в ${absolutePath}`);
+    throw new Error(`Fields "name" and "version" are required in ${absolutePath}`);
   }
 
   const pkg = parsed as {
@@ -114,17 +114,17 @@ export function parseMFConfig(filePath: string): MFConfigRaw {
     raw = requireCJS(absolutePath);
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err);
-    throw new Error(`Не удалось загрузить MF-конфиг "${absolutePath}": ${msg}`);
+    throw new Error(`Failed to load MF config "${absolutePath}": ${msg}`);
   }
 
   if (typeof raw !== 'object' || raw === null) {
-    throw new Error(`MF-конфиг должен экспортировать объект: ${absolutePath}`);
+    throw new Error(`MF config must export an object: ${absolutePath}`);
   }
 
   const cfg = raw as Record<string, unknown>;
 
   if (typeof cfg['name'] !== 'string' || cfg['name'].trim() === '') {
-    throw new Error(`Поле "name" обязательно в MF-конфиге: ${absolutePath}`);
+    throw new Error(`Field "name" is required in MF config: ${absolutePath}`);
   }
 
   return {

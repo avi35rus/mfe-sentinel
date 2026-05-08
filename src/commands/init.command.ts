@@ -41,8 +41,8 @@ async function fileExists(filePath: string): Promise<boolean> {
 export function registerInitCommand(program: Command): void {
   program
     .command('init')
-    .description('Инициализировать Sentinel в текущем проекте')
-    .option('--force', 'Перезаписать существующий конфиг', false)
+    .description('Initialize Sentinel in the current project')
+    .option('--force', 'Overwrite existing config', false)
     .action(async (options: { force: boolean }) => {
       try {
         const outputPath = resolve(CONFIG_FILENAME);
@@ -51,8 +51,8 @@ export function registerInitCommand(program: Command): void {
         if (exists && !options.force) {
           console.log(
             pc.yellow('\n  ⚠ ') +
-            pc.bold(`${CONFIG_FILENAME} уже существует.`) +
-            pc.gray(' Используй --force для перезаписи.\n'),
+            pc.bold(`${CONFIG_FILENAME} already exists.`) +
+            pc.gray(' Use --force to overwrite.\n'),
           );
           process.exit(0);
         }
@@ -65,28 +65,28 @@ export function registerInitCommand(program: Command): void {
         console.log(pc.bold(pc.cyan('│')));
         console.log(
           pc.bold(pc.cyan('│')) + '  ' +
-          pc.green('✔') + '  ' + pc.bold(`${CONFIG_FILENAME}`) + pc.gray(' создан'),
+          pc.green('✔') + '  ' + pc.bold(`${CONFIG_FILENAME}`) + pc.gray(' created'),
         );
         console.log(pc.bold(pc.cyan('│')));
-        console.log(pc.bold(pc.cyan('│')) + '  ' + pc.gray('Следующие шаги:'));
+        console.log(pc.bold(pc.cyan('│')) + '  ' + pc.gray('Next steps:'));
         console.log(
           pc.bold(pc.cyan('│')) + '    ' +
-          pc.cyan('1.') + '  Укажи путь к MF-конфигу в ' + pc.bold('mfConfigPath'),
+          pc.cyan('1.') + '  Set the MF config path in ' + pc.bold('mfConfigPath'),
         );
         console.log(
           pc.bold(pc.cyan('│')) + '    ' +
-          pc.cyan('2.') + '  Запусти ' + pc.bold('sentinel scan') + ' для генерации манифеста',
+          pc.cyan('2.') + '  Run ' + pc.bold('sentinel scan') + ' to generate the manifest',
         );
         console.log(
           pc.bold(pc.cyan('│')) + '    ' +
-          pc.cyan('3.') + '  Добавь ' + pc.bold('sentinel check') + ' в CI/CD пайплайн',
+          pc.cyan('3.') + '  Add ' + pc.bold('sentinel check') + ' to your CI/CD pipeline',
         );
         console.log(pc.bold(pc.cyan('│')));
         console.log(pc.bold(pc.cyan('└──────────────────────────────────────────────────')));
         console.log();
       } catch (error) {
         const message = error instanceof Error ? error.message : String(error);
-        console.error(pc.red(`\n✖ Ошибка инициализации: ${message}\n`));
+        console.error(pc.red(`\n✖ Initialization error: ${message}\n`));
         process.exit(1);
       }
     });

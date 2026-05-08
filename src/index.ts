@@ -11,9 +11,9 @@ program
   .name('sentinel')
   .description(
     pc.bold('MFE Sentinel') +
-    ' — CLI-инструмент аудита контрактов Micro Frontend',
+    ' — CLI tool for Micro-Frontend contract auditing',
   )
-  .version('0.1.0', '-v, --version', 'Показать текущую версию');
+  .version('0.1.0', '-v, --version', 'Show current version');
 
 registerInitCommand(program);
 registerScanCommand(program);
@@ -22,15 +22,15 @@ registerCheckCommand(program);
 program.addHelpText(
   'after',
   `
-${pc.gray('Примеры:')}
-  ${pc.cyan('sentinel init')}                        Инициализировать конфиг в проекте
-  ${pc.cyan('sentinel scan --config webpack.config.js')}  Сгенерировать манифест
-  ${pc.cyan('sentinel check --manifest manifest.sentinel.json --remote remote-manifest.json')}  Проверить совместимость
+${pc.gray('Examples:')}
+  ${pc.cyan('sentinel init')}                                                    Initialize config in project
+  ${pc.cyan('sentinel scan --mf-config module-federation.config.js')}            Generate manifest
+  ${pc.cyan('sentinel check --manifest manifest.sentinel.json --remote remote-manifest.json')}  Validate compatibility
 `,
 );
 
 program.parseAsync(process.argv).catch((error: unknown) => {
   const message = error instanceof Error ? error.message : String(error);
-  console.error(pc.red(`✖ Неожиданная ошибка: ${message}`));
+  console.error(pc.red(`✖ Unexpected error: ${message}`));
   process.exit(1);
 });

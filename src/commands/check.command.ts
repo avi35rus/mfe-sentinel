@@ -5,7 +5,7 @@ import pc from 'picocolors';
 import type { SentinelManifest, ValidationConflict, ValidationResult } from '../types/index.js';
 import { compareManifests } from '../core/version-comparator.js';
 
-// ─── Загрузка манифеста ───────────────────────────────────────────────────────
+// ─── Manifest loader ──────────────────────────────────────────────────────────
 
 async function loadManifest(filePath: string, label: string): Promise<SentinelManifest> {
   const absolutePath = resolve(filePath);
@@ -13,14 +13,14 @@ async function loadManifest(filePath: string, label: string): Promise<SentinelMa
   try {
     raw = await readFile(absolutePath, 'utf-8');
   } catch {
-    throw new Error(`Не удалось прочитать ${label} манифест: ${absolutePath}`);
+    throw new Error(`Failed to read ${label} manifest: ${absolutePath}`);
   }
 
   let parsed: unknown;
   try {
     parsed = JSON.parse(raw);
   } catch {
-    throw new Error(`Некорректный JSON в ${label} манифесте: ${absolutePath}`);
+    throw new Error(`Invalid JSON in ${label} manifest: ${absolutePath}`);
   }
 
   if (
@@ -28,13 +28,13 @@ async function loadManifest(filePath: string, label: string): Promise<SentinelMa
     !('name' in parsed) || !('version' in parsed) ||
     !('shared' in parsed) || !Array.isArray((parsed as Record<string, unknown>)['shared'])
   ) {
-    throw new Error(`Файл "${absolutePath}" не является валидным SentinelManifest`);
+    throw new Error(`File "${absolutePath}" is not a valid SentinelManifest`);
   }
 
   return parsed as SentinelManifest;
 }
 
-// ─── Вывод результатов ────────────────────────────────────────────────────────
+// ─── Output formatters ────────────────────────────────────────────────────────
 
 function printConflicts(conflicts: ValidationConflict[]): void {
   for (const c of conflicts) {
@@ -110,40 +110,40 @@ function printSummary(result: ValidationResult, localName: string, remoteName: s
   console.log();
 }
 
-// ─── Регистрация команды ──────────────────────────────────────────────────────
+// ─── Command registration ─────────────────────────────────────────────────────
 
 export function registerCheckCommand(program: Command): void {
   program
     .command('check')
-    .description('Проверить совместимость манифеста с production-графом')
+    .description('Compare local manifest against the production dependency graph')
     .option(
       '-m, --manifest <path>',
-      'Путь до локального манифеста',
+      'Path to local manifest',
       './manifest.sentinel.json',
     )
     .option(
       '-r, --remote <path>',
-      'Путь до remote/production манифеста',
+      'Path to remote/production manifest',
       './remote-manifest.json',
     )
     .option(
       '--fail-on-warning',
-      'Завершать с exit code 1 при Warning (не только Major)',
+      'Exit with code 1 on warnings (not only major conflicts)',
       false,
     )
     .action(async (options: { manifest: string; remote: string; failOnWarning: boolean }) => {
       try {
-        console.log(pc.bold('\n  sentinel check') + pc.gray(' — валидация совместимости...\n'));
+        console.log(pc.bold('\n  sentinel check') + pc.gray(' — validating compatibility...\n'));
 
-        process.stdout.write(pc.gray('  [1/3] Загрузка локального манифеста... '));
-        const localManifest = await loadManifest(options.manifest, 'локальный');
+        process.stdout.write(pc.gray('  [1/3] Loading local manifest...         '));
+        const localManifest = await loadManifest(options.manifest, 'local');
         console.log(pc.green('✔') + pc.gray(` ${localManifest.name}@${localManifest.version}`));
 
-        process.stdout.write(pc.gray('  [2/3] Загрузка remote манифеста...    '));
+        process.stdout.write(pc.gray('  [2/3] Loading remote manifest...        '));
         const remoteManifest = await loadManifest(options.remote, 'remote');
         console.log(pc.green('✔') + pc.gray(` ${remoteManifest.name}@${remoteManifest.version}`));
 
-        process.stdout.write(pc.gray('  [3/3] Сравнение зависимостей...       '));
+        process.stdout.write(pc.gray('  [3/3] Comparing dependencies...         '));
         const result = compareManifests(localManifest, remoteManifest);
         console.log(pc.green('✔'));
 
@@ -156,7 +156,7 @@ export function registerCheckCommand(program: Command): void {
         }
       } catch (error) {
         const message = error instanceof Error ? error.message : String(error);
-        console.error('\n' + pc.red('✖ Ошибка валидации: ') + message);
+        console.error('\n' + pc.red('✖ Validation error: ') + message);
         process.exit(1);
       }
     });
