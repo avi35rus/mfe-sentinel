@@ -339,23 +339,29 @@
         <a href="#features">Features</a>
         <a href="#architecture">Architecture</a>
         <a href="#pricing">Pricing</a>
-        <a href="https://github.com/avi35rus/mfe-sentinel" target="_blank">GitHub</a>
+        <a href="https://www.npmjs.com/package/mfe-sentinel" target="_blank" rel="noopener">npm</a>
+        <a href="https://github.com/avi35rus/mfe-sentinel" target="_blank" rel="noopener">GitHub</a>
     </div>
-    <a href="https://github.com/avi35rus/mfe-sentinel" class="nav-cta" target="_blank">View Source</a>
+    <a href="https://www.npmjs.com/package/mfe-sentinel" class="nav-cta" target="_blank" rel="noopener">Get Started</a>
 </nav>
 
 <!-- ── Hero ────────────────────────────────────────────────────────────── -->
 <section class="hero">
-    <span class="badge">● Open Source · v0.1.0-alpha · CLI MVP</span>
+    <span class="badge">● Open Source · v0.1.0 on npm</span>
     <h1>Stop Micro-Frontend<br><span>Runtime Crashes</span><br>Before They Happen</h1>
     <p class="hero-sub">
         Sentinel is an open-source CLI tool for Webpack Module Federation.
         It catches singleton dependency conflicts in CI/CD pipelines — before they silently break production.
     </p>
     <div class="hero-actions">
-        <a href="https://github.com/avi35rus/mfe-sentinel" class="btn btn-primary" target="_blank">View on GitHub →</a>
-        <a href="https://github.com/avi35rus/mfe-sentinel/blob/main/SENTINEL_SPEC.md" class="btn btn-outline" target="_blank">Technical Spec</a>
+        <a href="https://www.npmjs.com/package/mfe-sentinel" class="btn btn-primary" target="_blank" rel="noopener">Install from npm →</a>
+        <a href="https://github.com/avi35rus/mfe-sentinel" class="btn btn-outline" target="_blank" rel="noopener">View on GitHub</a>
+        <a href="https://github.com/avi35rus/mfe-sentinel/blob/main/SENTINEL_SPEC.md" class="btn btn-ghost" target="_blank" rel="noopener">Technical Spec</a>
     </div>
+    <p class="hero-sub" style="margin-top: 1.5rem; margin-bottom: 0; font-size: 0.9rem; font-family: monospace;">
+        <span style="color: var(--muted);">$</span>
+        <span style="color: var(--accent);"> npx mfe-sentinel init</span>
+    </p>
 </section>
 
 <!-- ── Terminal Demo ────────────────────────────────────────────────────── -->
@@ -365,17 +371,17 @@
             <div class="dot dot-r"></div>
             <div class="dot dot-y"></div>
             <div class="dot dot-g"></div>
-            <span class="terminal-title">sentinel scan + check — real CLI output</span>
+            <span class="terminal-title">mfe-sentinel scan + check — real CLI output</span>
         </div>
         <div class="terminal-body">
             <span class="t-line"><span class="t-comment"># Step 1: Parse MFE config and generate a typed manifest</span></span>
-            <span class="t-line"><span class="t-prompt">$ </span><span class="t-cmd">sentinel scan --mf-config ./module-federation.config.js --output manifest.sentinel.json</span></span>
+            <span class="t-line"><span class="t-prompt">$ </span><span class="t-cmd">npx mfe-sentinel scan --mf-config ./module-federation.config.js --output manifest.sentinel.json</span></span>
             <span class="t-line"><span class="t-ok">  ✔</span> Reading package.json...              <span class="t-ok">✔</span> checkout@2.4.1</span>
             <span class="t-line"><span class="t-ok">  ✔</span> Parsing module-federation.config...  <span class="t-ok">✔</span> checkout</span>
             <span class="t-line"><span class="t-ok">  ✔</span> Building manifest...                 <span class="t-ok t-bold">✔ [real]</span></span>
             <span class="t-line">&nbsp;</span>
             <span class="t-line"><span class="t-comment"># Step 2: Validate against another MFE's manifest</span></span>
-            <span class="t-line"><span class="t-prompt">$ </span><span class="t-cmd">sentinel check --manifest manifest.sentinel.json --remote shell-manifest.json</span></span>
+            <span class="t-line"><span class="t-prompt">$ </span><span class="t-cmd">npx mfe-sentinel check --manifest manifest.sentinel.json --remote shell-manifest.json</span></span>
             <span class="t-line">&nbsp;</span>
             <span class="t-line"><span class="t-border">┌─ sentinel check ─────────────────────────────────</span></span>
             <span class="t-line"><span class="t-border">│</span>  local → checkout@2.4.1   remote → shell@1.0.0</span>
@@ -432,7 +438,7 @@
     <div class="section-inner">
         <p class="section-label">How It Works</p>
         <h2 class="section-title">Today's CLI — and the full vision</h2>
-        <p class="section-sub">The CLI core (scan + check) is available now. Observability and Governance layers are on the roadmap.</p>
+        <p class="section-sub">Install with <code>npx mfe-sentinel</code> — scan, check, and init are available now. Observability and Governance layers are on the roadmap.</p>
         <div class="steps-grid">
             <div class="step">
                 <span class="step-num live">Available</span>
@@ -540,10 +546,10 @@
 │   MFE "checkout" build                                                  
 │         │                                                                
 │         ▼                                                                
-│   <span class="hl">sentinel scan</span>  ──►  manifest.sentinel.json  (local file)               
+│   <span class="hl">mfe-sentinel scan</span>  ──►  manifest.sentinel.json  (local file)               
 │         │                                                                
 │         ▼                                                                
-│   <span class="hl">sentinel check</span> ──►  <span class="hlg">PASS</span> (deploy) │ <span class="hly">WARN</span> (log) │ <span class="hlr">FAIL → exit 1</span>         
+│   <span class="hl">mfe-sentinel check</span> ──►  <span class="hlg">PASS</span> (deploy) │ <span class="hly">WARN</span> (log) │ <span class="hlr">FAIL → exit 1</span>         
 │                    ▲                                                     
 │                    │  reads local remote-manifest.json                  
 └────────────────────┼──────────────────────────────────────────────────────
@@ -581,17 +587,18 @@
             <div class="pricing-card">
                 <div class="tier">Open Source</div>
                 <div class="price">Free</div>
-                <div class="desc">Self-hosted CLI. Available today on GitHub.</div>
+                <div class="desc">Self-hosted CLI. Published on npm as <strong>mfe-sentinel</strong>.</div>
                 <ul>
                     <li>SemVer contract validation (local)</li>
                     <li>Manifest generation — Webpack MF</li>
                     <li>CI/CD exit code guardrails</li>
-                    <li>TypeScript-strict, zero runtime deps</li>
+                    <li>TypeScript-strict · Node.js ≥ 20</li>
                     <li class="no">Cloud validation across projects</li>
                     <li class="no">Observability dashboard</li>
                     <li class="no">Remote rollback</li>
                 </ul>
-                <a href="https://github.com/avi35rus/mfe-sentinel" class="card-btn card-btn-gh" target="_blank">View on GitHub →</a>
+                <a href="https://www.npmjs.com/package/mfe-sentinel" class="card-btn card-btn-gh" target="_blank" rel="noopener">Install via npm →</a>
+                <a href="https://github.com/avi35rus/mfe-sentinel" class="card-btn card-btn-gh" target="_blank" rel="noopener" style="margin-top: 0.5rem;">View on GitHub →</a>
             </div>
             <div class="pricing-card featured">
                 <div class="tier">Pro</div>
@@ -630,10 +637,11 @@
 <!-- ── CTA ──────────────────────────────────────────────────────────────── -->
 <div class="cta-section">
     <h2>Start guarding your Micro-Frontends today.</h2>
-    <p>The CLI is open source. Clone it, run it, break things — then tell us what you need next.</p>
+    <p>The CLI is on npm. Run <code style="color: var(--accent);">npx mfe-sentinel init</code> in your project — then tell us what you need next.</p>
     <div class="hero-actions">
-        <a href="https://github.com/avi35rus/mfe-sentinel" class="btn btn-primary" target="_blank">View on GitHub →</a>
-        <a href="mailto:founder@sentinel-hq.io" class="btn btn-outline">Talk to the Founder</a>
+        <a href="https://www.npmjs.com/package/mfe-sentinel" class="btn btn-primary" target="_blank" rel="noopener">Install from npm →</a>
+        <a href="https://github.com/avi35rus/mfe-sentinel" class="btn btn-outline" target="_blank" rel="noopener">View on GitHub</a>
+        <a href="mailto:founder@sentinel-hq.io" class="btn btn-ghost">Talk to the Founder</a>
     </div>
 </div>
 
@@ -641,8 +649,9 @@
 <footer>
     <p>
         © 2026 Sentinel HQ &nbsp;·&nbsp;
-        <a href="https://github.com/avi35rus/mfe-sentinel" target="_blank">GitHub</a> &nbsp;·&nbsp;
-        <a href="https://github.com/avi35rus/mfe-sentinel/blob/main/SENTINEL_SPEC.md" target="_blank">Technical Spec</a> &nbsp;·&nbsp;
+        <a href="https://www.npmjs.com/package/mfe-sentinel" target="_blank" rel="noopener">npm</a> &nbsp;·&nbsp;
+        <a href="https://github.com/avi35rus/mfe-sentinel" target="_blank" rel="noopener">GitHub</a> &nbsp;·&nbsp;
+        <a href="https://github.com/avi35rus/mfe-sentinel/blob/main/SENTINEL_SPEC.md" target="_blank" rel="noopener">Technical Spec</a> &nbsp;·&nbsp;
         <a href="mailto:founder@sentinel-hq.io">founder@sentinel-hq.io</a>
     </p>
 </footer>
