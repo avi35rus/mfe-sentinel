@@ -1,6 +1,7 @@
 # Sentinel — Micro-Frontend Contract Guard
 
 [![CI](https://github.com/avi35rus/mfe-sentinel/actions/workflows/ci.yml/badge.svg)](https://github.com/avi35rus/mfe-sentinel/actions/workflows/ci.yml)
+[![npm version](https://img.shields.io/npm/v/mfe-sentinel.svg)](https://www.npmjs.com/package/mfe-sentinel)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Node.js](https://img.shields.io/badge/Node.js-%3E%3D20-brightgreen)](https://nodejs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-strict-blue)](https://www.typescriptlang.org)
@@ -19,23 +20,40 @@ Standard CI pipelines have no way to catch this. Sentinel does.
 
 ---
 
+## Installation
+
+The CLI is published on npm as **[mfe-sentinel](https://www.npmjs.com/package/mfe-sentinel)**.
+
+```bash
+# Run without installing (recommended for CI)
+npx mfe-sentinel --help
+
+# Global install
+npm install -g mfe-sentinel
+
+# Project devDependency
+npm install -D mfe-sentinel
+```
+
+The package exposes two equivalent binaries: **`mfe-sentinel`** (canonical) and **`sentinel`** (short alias). Examples below use `mfe-sentinel`.
+
+**Requirements:** Node.js ≥ 20.
+
+---
+
 ## Quick Start
 
 ```bash
-# 1. Install globally (npm package coming in Phase 2)
-git clone https://github.com/avi35rus/mfe-sentinel.git
-cd mfe-sentinel && npm install && npm run build
+# 1. Initialize Sentinel in your MFE project
+npx mfe-sentinel init
 
-# 2. Initialize Sentinel in your project
-node dist/index.js init
-
-# 3. Scan your MFE and generate a manifest
-node dist/index.js scan \
+# 2. Scan your app and generate a manifest
+npx mfe-sentinel scan \
   --mf-config ./module-federation.config.js \
   --output manifest.sentinel.json
 
-# 4. Validate against the production manifest
-node dist/index.js check \
+# 3. Validate against the production manifest
+npx mfe-sentinel check \
   --manifest manifest.sentinel.json \
   --remote remote-manifest.json
 ```
@@ -44,7 +62,8 @@ node dist/index.js check \
 
 ## CLI Commands
 
-### `sentinel init`
+### `mfe-sentinel init`
+
 Creates `sentinel.config.json` with sensible defaults in the current directory.
 
 ```
@@ -52,7 +71,8 @@ Options:
   --force   Overwrite existing config
 ```
 
-### `sentinel scan`
+### `mfe-sentinel scan`
+
 Parses `module-federation.config.js` + `package.json` and generates a typed **SentinelManifest** JSON.
 
 ```
@@ -63,7 +83,8 @@ Options:
   --no-save               Print to terminal only, do not write file
 ```
 
-### `sentinel check`
+### `mfe-sentinel check`
+
 Compares a local manifest against a production/remote manifest using SemVer-aware validation.
 
 ```
@@ -84,8 +105,8 @@ Options:
 ```yaml
 - name: Sentinel contract check
   run: |
-    npx sentinel scan --mf-config ./module-federation.config.js
-    npx sentinel check --manifest manifest.sentinel.json --remote remote-manifest.json
+    npx mfe-sentinel scan --mf-config ./module-federation.config.js
+    npx mfe-sentinel check --manifest manifest.sentinel.json --remote remote-manifest.json
 ```
 
 When `react@17` (production) meets `react@^18` (new build), Sentinel returns `exit code 1` and blocks the deployment:
@@ -107,7 +128,7 @@ When `react@17` (production) meets `react@^18` (new build), Sentinel returns `ex
 
 ## Validation Algorithm
 
-The `sentinel check` engine implements the contract validation from [SENTINEL_SPEC.md](SENTINEL_SPEC.md):
+The `mfe-sentinel check` engine implements the contract validation from [SENTINEL_SPEC.md](SENTINEL_SPEC.md):
 
 1. **Extract** — Parse local manifest (Remotes, Exposes, Shared).
 2. **Fetch State** — Load the production graph manifest.
@@ -142,14 +163,14 @@ interface SentinelManifest {
 ```
 CI/CD Pipeline
     │
-    ├─► sentinel scan  →  manifest.sentinel.json
+    ├─► mfe-sentinel scan  →  manifest.sentinel.json
     │
-    └─► sentinel check →  PASS (deploy) | WARN (log) | FAIL → exit 1
+    └─► mfe-sentinel check →  PASS (deploy) | WARN (log) | FAIL → exit 1
               ▲
-              │  Sentinel API (production graph — Phase 2)
+              │  Sentinel API (production graph — planned)
               │
     ┌─────────┴─────────────────────────────────────
-    │  Sentinel Backend (Planned — Phase 3)        
+    │  Sentinel Backend (Planned)                  
     │                                              
     │  API Gateway                                 
     │    ├─► Kafka/SQS        (async queue)        
@@ -179,9 +200,22 @@ src/
 ├── parsers/
 │   └── webpack.parser.ts        # MF config + package.json parser
 └── commands/
-    ├── init.command.ts          # sentinel init
-    ├── scan.command.ts          # sentinel scan
-    └── check.command.ts         # sentinel check
+    ├── init.command.ts          # mfe-sentinel init
+    ├── scan.command.ts          # mfe-sentinel scan
+    └── check.command.ts         # mfe-sentinel check
+```
+
+---
+
+## Development (from source)
+
+```bash
+git clone https://github.com/avi35rus/mfe-sentinel.git
+cd mfe-sentinel
+npm install
+npm test
+npm run build
+node dist/index.js --help
 ```
 
 ---
@@ -193,7 +227,7 @@ src/
 | CLI | TypeScript · Node.js · Commander |
 | Validation | semver · picocolors |
 | Testing | Vitest |
-| Backend (Phase 2–3) | Node.js · ClickHouse · Neo4j |
+| Backend (planned) | Node.js · ClickHouse · Neo4j |
 | Infrastructure | Cloud-agnostic · AWS / GCP / Azure |
 | Enterprise | Kubernetes Helm Charts · On-Premise |
 
@@ -203,7 +237,7 @@ src/
 
 | Phase | Timeline | Goal |
 |---|---|---|
-| **Phase 1 — MVP** | Months 1–3 | Open Source CLI for Webpack MF. Free SaaS dashboard (≤5 apps). |
+| **Phase 1 — MVP** | Months 1–3 | ✅ Open Source CLI on npm (`mfe-sentinel`). Webpack MF support. Free SaaS dashboard (≤5 apps). |
 | **Phase 2 — Pro** | Months 4–8 | Runtime browser agent. Pro subscription ($49–99/team/mo). Vite support. |
 | **Phase 3 — Enterprise** | Months 9–15 | Remote Rollback, On-Premise (Helm), SSO/SAML, SLA contracts. |
 | **Phase 4 — AI** | R&D | LLM-driven AST diff analysis. Automated codemod generation. |
