@@ -38,10 +38,10 @@ jobs:
         run: npm run build
 
       - name: Smoke-test CLI — scan (mock mode)
-        run: npx --no-install mfe-sentinel scan --no-save
+        run: node dist/index.js scan --no-save
 
       - name: Smoke-test CLI — check (demo manifests)
         run: |
-          npx --no-install mfe-sentinel check \
+          node dist/index.js check \
             --manifest demo/host-manifest.json \
             --remote demo/remote-manifest.json || true
