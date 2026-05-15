@@ -1,13 +1,30 @@
 {
   "name": "mfe-sentinel",
   "version": "0.1.0",
-  "description": "CLI-инструмент аудита контрактов Micro Frontend",
-  "main": "dist/index.js",
+  "description": "CLI tool for Micro-Frontend contract auditing (Module Federation)",
+  "type": "module",
+  "main": "./dist/index.js",
   "bin": {
-    "sentinel": "dist/index.js"
+    "mfe-sentinel": "./dist/index.js",
+    "sentinel": "./dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/avi35rus/mfe-sentinel.git"
+  },
+  "homepage": "https://github.com/avi35rus/mfe-sentinel#readme",
+  "bugs": {
+    "url": "https://github.com/avi35rus/mfe-sentinel/issues"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsc -p tsconfig.build.json",
+    "prepublishOnly": "npm run build",
     "dev": "tsx src/index.ts",
     "start": "node dist/index.js",
     "test": "vitest run",
@@ -21,9 +38,8 @@
     "cli",
     "audit"
   ],
-  "author": "",
+  "author": "Vladimir Aleksandrov <founder@sentinel-hq.io>",
   "license": "MIT",
-  "type": "module",
   "dependencies": {
     "commander": "^14.0.3",
     "picocolors": "^1.1.1",
